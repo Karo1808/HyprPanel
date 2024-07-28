@@ -1,9 +1,17 @@
 @import "../colors";
-@import '../../variables';
+@import "../../variables";
 
 .menu-items.media {
-    background: if($bar-menus-monochrome, $bar-menus-background, $bar-menus-menu-media-background-color);
-    border-color: if($bar-menus-monochrome, $bar-menus-border-color, $bar-menus-menu-media-border-color);
+  background: if(
+    $bar-menus-monochrome,
+    $bar-menus-background,
+    $bar-menus-menu-media-background-color
+  );
+  border-color: if(
+    $bar-menus-monochrome,
+    $bar-menus-border-color,
+    $bar-menus-menu-media-border-color
+  );
 }
 .menu-items-container.media {
   min-width: 23em;
@@ -37,17 +45,29 @@
   }
 
   .media-indicator-current-song-name-label {
-    color: if($bar-menus-monochrome, $bar-menus-label, $bar-menus-menu-media-song);
+    color: if(
+      $bar-menus-monochrome,
+      $bar-menus-label,
+      $bar-menus-menu-media-song
+    );
     font-size: 1.35em;
   }
 
   .media-indicator-current-song-author-label {
-    color: if($bar-menus-monochrome, $bar-menus-label, $bar-menus-menu-media-artist);
+    color: if(
+      $bar-menus-monochrome,
+      $bar-menus-label,
+      $bar-menus-menu-media-artist
+    );
     font-size: 1em;
   }
 
   .media-indicator-current-song-album-label {
-    color: if($bar-menus-monochrome, $bar-menus-label, $bar-menus-menu-media-album);
+    color: if(
+      $bar-menus-monochrome,
+      $bar-menus-label,
+      $bar-menus-menu-media-album
+    );
     font-size: 1em;
   }
 
@@ -61,32 +81,65 @@
   }
 
   .media-indicator-control-button {
-    background: if($bar-menus-monochrome, $bar-menus-buttons-default, $bar-menus-menu-media-buttons-background);
-    color: if($bar-menus-monochrome, $bar-menus-buttons-text, $bar-menus-menu-media-buttons-text);
+    background: if(
+      $bar-menus-monochrome,
+      $bar-menus-buttons-default,
+      $bar-menus-menu-media-buttons-background
+    );
+    color: if(
+      $bar-menus-monochrome,
+      $bar-menus-buttons-text,
+      $bar-menus-menu-media-buttons-text
+    );
     min-height: 1.8em;
     min-width: 2.5em;
     border-radius: 0.2rem;
 
     &.disabled {
-      background: if($bar-menus-monochrome, $bar-menus-buttons-disabled, $bar-menus-menu-media-buttons-inactive);
+      background: if(
+        $bar-menus-monochrome,
+        $bar-menus-buttons-disabled,
+        $bar-menus-menu-media-buttons-inactive
+      );
     }
 
     &.enabled {
-      background: if($bar-menus-monochrome, $bar-menus-buttons-default, $bar-menus-menu-media-buttons-background);
+      background: if(
+        $bar-menus-monochrome,
+        $bar-menus-buttons-default,
+        $bar-menus-menu-media-buttons-background
+      );
 
       &:hover {
-        background: transparentize(if($bar-menus-monochrome, $bar-menus-buttons-default, $bar-menus-menu-media-buttons-background), 0.5);
+        background: transparentize(
+          if(
+            $bar-menus-monochrome,
+            $bar-menus-buttons-default,
+            $bar-menus-menu-media-buttons-background
+          ),
+          0.5
+        );
       }
 
       &.active {
-        background: if($bar-menus-monochrome, $bar-menus-buttons-default, $bar-menus-menu-media-buttons-enabled);
+        background: if(
+          $bar-menus-monochrome,
+          $bar-menus-buttons-default,
+          $bar-menus-menu-media-buttons-enabled
+        );
 
         &:hover {
-          background: transparentize(if($bar-menus-monochrome, $bar-menus-buttons-default, $bar-menus-menu-media-buttons-enabled), 0.5);
+          background: transparentize(
+            if(
+              $bar-menus-monochrome,
+              $bar-menus-buttons-default,
+              $bar-menus-menu-media-buttons-enabled
+            ),
+            0.5
+          );
         }
       }
     }
-
   }
 
   image {
@@ -98,23 +151,42 @@
     margin-bottom: 1em;
 
     trough {
-      background: if($bar-menus-monochrome, $bar-menus-slider-background, $bar-menus-menu-media-slider-background);
+      background: if(
+        $bar-menus-monochrome,
+        $bar-menus-slider-background,
+        $bar-menus-menu-media-slider-background
+      );
       border-radius: 0.2em;
 
       highlight,
       progress {
         border-radius: 0.2em;
-        min-height: .85em;
-        background: if($bar-menus-monochrome, $bar-menus-slider-primary, $bar-menus-menu-media-slider-primary);
+        min-height: 0.85em;
+        background: if(
+          $bar-menus-monochrome,
+          $bar-menus-slider-primary,
+          $bar-menus-menu-media-slider-primary
+        );
       }
     }
     slider {
-      background: if($bar-menus-monochrome, $bar-menus-slider-puck, $bar-menus-menu-media-slider-puck);
+      background: if(
+        $bar-menus-monochrome,
+        $bar-menus-slider-puck,
+        $bar-menus-menu-media-slider-puck
+      );
     }
 
     &:hover {
       trough {
-        background: transparentize(if($bar-menus-monochrome, $bar-menus-slider-backgroundhover, $bar-menus-menu-media-slider-backgroundhover), 0.3);
+        background: transparentize(
+          if(
+            $bar-menus-monochrome,
+            $bar-menus-slider-backgroundhover,
+            $bar-menus-menu-media-slider-backgroundhover
+          ),
+          0.3
+        );
       }
     }
   }
