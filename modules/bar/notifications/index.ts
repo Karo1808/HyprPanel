@@ -22,13 +22,13 @@ export const Notifications = () => {
           (notif, dnd, showTotal) => {
             const notifIcon = Widget.Label({
               hpack: "center",
-              class_name: "bar-button-icon notifications",
+              class_name: "bar-notifications-label",
               label: dnd ? "󰂛" : notif.length > 0 ? "󱅫" : "󰂚",
             });
 
             const notifLabel = Widget.Label({
               hpack: "center",
-              class_name: "bar-button-label notifications",
+              class_name: "bar-notifications-total",
               label: notif.length.toString(),
             });
 
