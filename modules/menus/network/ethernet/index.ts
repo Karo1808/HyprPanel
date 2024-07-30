@@ -29,7 +29,9 @@ const Ethernet = () => {
                   hpack: "start",
                   children: [
                     Widget.Icon({
-                      class_name: `network-icon ethernet ${network.wired.state === "activated" ? "active" : ""}`,
+                      class_name: `network-icon ethernet ${
+                        network.wired.state === "activated" ? "active" : ""
+                      }`,
                       tooltip_text: network.wired.internet,
                       icon: `${network.wired["icon_name"]}`,
                     }),
@@ -42,13 +44,19 @@ const Ethernet = () => {
                           hpack: "start",
                           truncate: "end",
                           wrap: true,
-                          label: `Ethernet Connection ${network.wired.state !== "unknown" && typeof network.wired?.speed === "number" ? `(${network.wired?.speed / 1000} Gbps)` : ""}`,
+                          label: `Ethernet ${
+                            network.wired.state !== "unknown" &&
+                            typeof network.wired?.speed === "number"
+                              ? `(${network.wired?.speed / 1000} Gbps)`
+                              : ""
+                          }`,
+                          tooltip_text: `${network.wired.speed} Mbps`,
                         }),
                         Widget.Label({
                           hpack: "start",
                           class_name: "connection-status dim",
                           label:
-                          network.wired.internet.charAt(0).toUpperCase() +
+                            network.wired.internet.charAt(0).toUpperCase() +
                             network.wired.internet.slice(1),
                         }),
                       ],
