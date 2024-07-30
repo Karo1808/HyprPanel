@@ -13,6 +13,7 @@
     $bar-menus-menu-media-border-color
   );
 }
+
 .menu-items-container.media {
   min-width: 23em;
   min-height: 10em;
@@ -169,6 +170,7 @@
         );
       }
     }
+
     slider {
       background: if(
         $bar-menus-monochrome,
