@@ -2,11 +2,11 @@
 
 * {
   color: $default_fg;
-  font-family: "JetBrainsMono NF";
   font-size: 0.9rem;
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   background-color: $primary_bg;
@@ -35,7 +35,7 @@ html, body {
       border: none;
 
       &:before {
-        content: '󰆏';
+        content: "󰆏";
         display: inline-block;
         padding-right: 0.5rem;
       }
@@ -218,5 +218,3 @@ code {
     background: rgba(243, 139, 168, 0.15);
   }
 }
-
-

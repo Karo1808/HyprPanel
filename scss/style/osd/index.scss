@@ -1,5 +1,5 @@
 @import "../colors";
-@import '../../variables';
+@import "../../variables";
 
 .indicator {
   .osd-container {
@@ -9,12 +9,16 @@
   .osd-label-container {
     background: $osd-bar_container;
 
-    border-radius: if($osd-orientation =="vertical", $osd-radius $osd-radius 0em 0em, 0em $osd-radius $osd-radius 0em);
+    border-radius: if(
+      $osd-orientation == "vertical",
+      $osd-radius $osd-radius 0em 0em,
+      0em $osd-radius $osd-radius 0em
+    );
 
     .osd-label {
       font-size: 1em;
-      padding-top: if($osd-orientation =="vertical", 1em, 0em);
-      padding-right: if($osd-orientation =="horizontal", 1em, 0em);
+      padding-top: if($osd-orientation == "vertical", 1em, 0em);
+      padding-right: if($osd-orientation == "horizontal", 1em, 0em);
       color: $osd-label;
 
       &.overflow {
@@ -25,12 +29,17 @@
 
   .osd-icon-container {
     background: $osd-icon_container;
+    padding-left: 0.5em;
 
-    border-radius: if($osd-orientation =="vertical", 0em 0em $osd-radius $osd-radius, $osd-radius 0em 0em $osd-radius );
+    border-radius: if(
+      $osd-orientation == "vertical",
+      0em 0em $osd-radius $osd-radius,
+      $osd-radius 0em 0em $osd-radius
+    );
 
     .osd-icon {
       font-size: 2em;
-      padding: if($osd-orientation =="vertical", 0.2em 0em, 0em 0.2em);
+      padding: if($osd-orientation == "vertical", 0.2em 0em, 0em 0.2em);
       color: $osd-icon;
     }
   }
@@ -45,8 +54,8 @@
       }
 
       trough {
-        min-height: if($osd-orientation =="vertical", 10em, 0);
-        min-width: if($osd-orientation =="horizontal", 10em, 0);
+        min-height: if($osd-orientation == "vertical", 10em, 0);
+        min-width: if($osd-orientation == "horizontal", 10em, 0);
       }
 
       block {
@@ -54,7 +63,6 @@
 
         &.empty {
           background: $osd-bar_empty_color;
-
         }
 
         &.filled {
