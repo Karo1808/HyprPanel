@@ -1,3 +1,9 @@
+import Gdk from "gi://Gdk?version=3.0";
+import { openMenu } from "../utils.js";
+import options from "options";
+
+const { show_total } = options.bar.notifications;
+
 const notifs = await Service.import("notifications");
 
 export const Notifications = () => {
@@ -8,8 +14,12 @@ export const Notifications = () => {
         hpack: "start",
         class_name: "bar-notifications",
         children: Utils.merge(
-          [notifs.bind("notifications"), notifs.bind("dnd")],
-          (notif, dnd) => {
+          [
+            notifs.bind("notifications"),
+            notifs.bind("dnd"),
+            show_total.bind("value"),
+          ],
+          (notif, dnd, showTotal) => {
             const notifIcon = Widget.Label({
               hpack: "center",
               class_name: "bar-button-icon notifications",
@@ -22,6 +32,9 @@ export const Notifications = () => {
               label: notif.length.toString(),
             });
 
+            if (showTotal) {
+              return [notifIcon, notifLabel];
+            }
             return [notifIcon];
           }
         ),
@@ -30,8 +43,8 @@ export const Notifications = () => {
     isVisible: true,
     boxClass: "notifications",
     props: {
-      on_primary_click: () => {
-        Utils.execAsync("swaync-client -t").catch((err) => console.error(err));
+      on_primary_click: (clicked: any, event: Gdk.Event) => {
+        openMenu(clicked, event, "notificationsmenu");
       },
     },
   };
