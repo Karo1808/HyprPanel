@@ -15,7 +15,9 @@ const Controls = () => {
         expand: true,
         setup: (self) => {
           self.hook(network, () => {
-            return (self.class_name = `dashboard-button wifi ${!network.wifi.enabled ? "disabled" : ""}`);
+            return (self.class_name = `dashboard-button wifi ${
+              !network.wifi.enabled ? "disabled" : ""
+            }`);
           });
         },
         on_primary_click: () => network.toggleWifi(),
@@ -33,7 +35,7 @@ const Controls = () => {
         class_name: bluetooth
           .bind("enabled")
           .as(
-            (btOn) => `dashboard-button bluetooth ${!btOn ? "disabled" : ""}`,
+            (btOn) => `dashboard-button bluetooth ${!btOn ? "disabled" : ""}`
           ),
         on_primary_click: () => bluetooth.toggle(),
         child: Widget.Label({
@@ -46,7 +48,7 @@ const Controls = () => {
         class_name: notifications
           .bind("dnd")
           .as(
-            (dnd) => `dashboard-button notifications ${dnd ? "disabled" : ""}`,
+            (dnd) => `dashboard-button notifications ${dnd ? "disabled" : ""}`
           ),
         on_primary_click: () => (notifications.dnd = !notifications.dnd),
         child: Widget.Label({
@@ -60,7 +62,9 @@ const Controls = () => {
           (audio.speaker.is_muted = !audio.speaker.is_muted),
         setup: (self) => {
           self.hook(audio, () => {
-            return (self.class_name = `dashboard-button playback ${audio.speaker.is_muted ? "disabled" : ""}`);
+            return (self.class_name = `dashboard-button playback ${
+              audio.speaker.is_muted ? "disabled" : ""
+            }`);
           });
         },
         child: Widget.Label({
@@ -78,7 +82,9 @@ const Controls = () => {
           (audio.microphone.is_muted = !audio.microphone.is_muted),
         setup: (self) => {
           self.hook(audio, () => {
-            return (self.class_name = `dashboard-button input ${audio.microphone.is_muted ? "disabled" : ""}`);
+            return (self.class_name = `dashboard-button input ${
+              audio.microphone.is_muted ? "disabled" : ""
+            }`);
           });
         },
         child: Widget.Label({

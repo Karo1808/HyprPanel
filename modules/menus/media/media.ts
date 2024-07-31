@@ -64,7 +64,7 @@ const Media = () => {
                 self.css = `background-image: linear-gradient(
                   rgba(30, 30, 46, 0.85),
                   rgba(30, 30, 46, 0.9),
-                  #1e1e2e 40em), url("${curPlayer.track_covjer_url}");
+                  #1e1e2e 40em), url("${curPlayer.track_cover_url}");
                    `;
               }
             });
