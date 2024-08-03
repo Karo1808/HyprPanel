@@ -16,7 +16,7 @@ export const OSDIcon = (ort: OSDOrientation) => {
         self.hook(
           brightness,
           () => {
-            self.label = "";
+            self.label = "󱍖";
           },
           "notify::screen"
         );
@@ -27,9 +27,34 @@ export const OSDIcon = (ort: OSDOrientation) => {
           },
           "notify::kbd"
         );
-        self.hook(audio, () => {
-          self.label = audio.speaker.is_muted ? "󰝟" : "󰕾";
-        });
+        self.hook(
+          audio.microphone,
+          () => {
+            self.label = audio.microphone.is_muted ? "󰍭" : "󰍬";
+          },
+          "notify::volume"
+        );
+        self.hook(
+          audio.microphone,
+          () => {
+            self.label = audio.microphone.is_muted ? "󰍭" : "󰍬";
+          },
+          "notify::is-muted"
+        );
+        self.hook(
+          audio.speaker,
+          () => {
+            self.label = audio.speaker.is_muted ? "󰝟" : "󰕾";
+          },
+          "notify::volume"
+        );
+        self.hook(
+          audio.speaker,
+          () => {
+            self.label = audio.speaker.is_muted ? "󰝟" : "󰕾";
+          },
+          "notify::is-muted"
+        );
       },
     }),
   });
