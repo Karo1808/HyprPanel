@@ -13,6 +13,7 @@ const Ethernet = () => {
           hexpand: true,
           hpack: "start",
           label: "Ethernet",
+          tooltip_text: `${network.wired.speed} Mbps`,
         }),
       }),
       Widget.Box({
@@ -44,13 +45,12 @@ const Ethernet = () => {
                           hpack: "start",
                           truncate: "end",
                           wrap: true,
-                          label: `Ethernet ${
+                          label: `Ethernet Connection ${
                             network.wired.state !== "unknown" &&
                             typeof network.wired?.speed === "number"
                               ? `(${network.wired?.speed / 1000} Gbps)`
                               : ""
                           }`,
-                          tooltip_text: `${network.wired.speed} Mbps`,
                         }),
                         Widget.Label({
                           hpack: "start",
