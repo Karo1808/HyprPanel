@@ -9,7 +9,9 @@ export type NotificationAnchor =
   | "top left"
   | "bottom"
   | "bottom right"
-  | "bottom left";
+  | "bottom left"
+  | "left"
+  | "right";
 export type OSDAnchor =
   | "top left"
   | "top"
