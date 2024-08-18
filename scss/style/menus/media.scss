@@ -9,7 +9,7 @@
     $bar-menus-border-color,
     $bar-menus-menu-media-border-color
   );
-  border: transparent;
+  opacity: $bar-menus-opacity/100;
 }
 
 .menu-items-container.media {

@@ -86,7 +86,7 @@ const devices = (bluetooth: Bluetooth, self: Box<any, any>) => {
                         vpack: "start",
                         class_name: `menu-button-icon bluetooth ${
                           conDevNames.includes(device.address) ? "active" : ""
-                        }`,
+                        } txt-icon`,
                         label: getBluetoothIcon(
                           `${device["icon-name"]}-symbolic`
                         ),
@@ -103,7 +103,6 @@ const devices = (bluetooth: Bluetooth, self: Box<any, any>) => {
                             truncate: "end",
                             wrap: true,
                             label: device.alias,
-                            tooltip_text: `${device.battery_percentage}%`,
                           }),
                           Widget.Revealer({
                             hpack: "start",

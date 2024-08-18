@@ -2,10 +2,10 @@ import Gdk from "gi://Gdk?version=3.0";
 const mpris = await Service.import("mpris");
 import { openMenu } from "../utils.js";
 import options from "options";
-import { Mpris } from "types/service/mpris.js";
 import { getCurrentPlayer } from "lib/shared/media.js";
 
-const { show_artist, truncation, truncation_size } = options.bar.media;
+const { show_artist, truncation, truncation_size, show_label } =
+  options.bar.media;
 
 const Media = () => {
   const activePlayer = Variable(mpris.players[0]);
@@ -17,18 +17,16 @@ const Media = () => {
 
   const getIconForPlayer = (playerName: string): string => {
     const windowTitleMap = [
-      ["Mozilla Firefox", "󰈹 "],
+      ["Firefox", "󰈹 "],
       ["Microsoft Edge", "󰇩 "],
-      ["(.*)Discord(.*)", " "],
+      ["Discord", " "],
       ["Plex", "󰚺 "],
-      ["(.*) Spotify Free", "󰓇 "],
-      ["(.*)Spotify Premium", "󰓇 "],
       ["Spotify", "󰓇 "],
       ["(.*)", "󰝚 "],
     ];
 
     const foundMatch = windowTitleMap.find((wt) =>
-      RegExp(wt[0]).test(playerName)
+      RegExp(wt[0], "i").test(playerName)
     );
 
     return foundMatch ? foundMatch[1] : "󰝚";
@@ -37,23 +35,27 @@ const Media = () => {
   const songIcon = Variable("");
 
   const mediaLabel = Utils.watch(
-    "󰎇 Media 󰎇",
-    [mpris, show_artist, truncation, truncation_size],
+    "Media",
+    [mpris, show_artist, truncation, truncation_size, show_label],
     () => {
-      if (activePlayer.value) {
+      if (activePlayer.value && show_label.value) {
         const { track_title, identity, track_artists } = activePlayer.value;
+        songIcon.value = getIconForPlayer(identity);
         const trackArtist = show_artist.value
           ? ` - ${track_artists.join(", ")}`
           : ``;
-        songIcon.value = getIconForPlayer(identity);
-        return track_title.length === 0
-          ? `No media playing...`
-          : truncation.value
+        const truncatedLabel = truncation.value
           ? `${track_title + trackArtist}`.substring(0, truncation_size.value)
           : `${track_title + trackArtist}`;
+
+        return track_title.length === 0
+          ? `No media playing...`
+          : truncatedLabel.length < truncation_size.value || !truncation.value
+          ? `${truncatedLabel}`
+          : `${truncatedLabel.substring(0, truncatedLabel.length - 3)}...`;
       } else {
-        songIcon.value = "";
-        return "󰎇 Media 󰎇";
+        songIcon.value = getIconForPlayer(activePlayer.value?.identity || "");
+        return `Media`;
       }
     }
   );
@@ -66,8 +68,8 @@ const Media = () => {
         child: Widget.Box({
           children: [
             Widget.Label({
-              class_name: "bar-button-icon media",
-              label: songIcon.bind("value"),
+              class_name: "bar-button-icon media txt-icon bar",
+              label: songIcon.bind("value").as((v) => v || "󰝚"),
             }),
             Widget.Label({
               class_name: "bar-button-label media",

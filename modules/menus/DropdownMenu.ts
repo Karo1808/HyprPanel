@@ -1,6 +1,7 @@
 const hyprland = await Service.import("hyprland");
-import { globalMousePos } from "globals";
 import { Exclusivity } from "lib/types/widget";
+import { bash } from "lib/utils";
+import { Monitor } from "types/service/hyprland";
 
 export const Padding = (name: string) =>
     Widget.EventBox({
@@ -16,12 +17,29 @@ const moveBoxToCursor = (self: any, fixed: boolean) => {
         return;
     }
 
-    globalMousePos.connect("changed", ({ value }) => {
-        const hyprScaling = hyprland.monitors[hyprland.active.monitor.id].scale;
-        const currentWidth = self.child.get_allocation().width;
+    globalMousePos.connect("changed", async ({ value }) => {
+        const curHyprlandMonitor = hyprland.monitors.find(m => m.id === hyprland.active.monitor.id);
+        const dropdownWidth = self.child.get_allocation().width;
 
-        let monWidth = hyprland.monitors[hyprland.active.monitor.id].width;
-        let monHeight = hyprland.monitors[hyprland.active.monitor.id].height;
+        let hyprScaling = 1;
+        try {
+            const monitorInfo = await bash('hyprctl monitors -j');
+            const parsedMonitorInfo = JSON.parse(monitorInfo);
+
+            const foundMonitor = parsedMonitorInfo.find((monitor: Monitor) =>
+                monitor.id === hyprland.active.monitor.id
+            );
+            hyprScaling = foundMonitor?.scale || 1;
+        } catch (error) {
+            console.error(`Error parsing hyprland monitors: ${error}`);
+        }
+
+        let monWidth = curHyprlandMonitor?.width;
+        let monHeight = curHyprlandMonitor?.height;
+
+        if (monWidth === undefined || monHeight === undefined || hyprScaling === undefined) {
+            return;
+        }
 
         // If GDK Scaling is applied, then get divide width by scaling
         // to get the proper coordinates.
@@ -39,24 +57,28 @@ const moveBoxToCursor = (self: any, fixed: boolean) => {
         }
 
         // If monitor is vertical (transform = 1 || 3) swap height and width
-        if (hyprland.monitors[hyprland.active.monitor.id].transform % 2 !== 0) {
+        const isVertical = curHyprlandMonitor?.transform !== undefined
+            ? curHyprlandMonitor.transform % 2 !== 0
+            : false;
+
+        if (isVertical) {
             [monWidth, monHeight] = [monHeight, monWidth];
         }
 
-        let marginRight = monWidth - currentWidth / 2;
+        let marginRight = monWidth - dropdownWidth / 2;
         marginRight = fixed ? marginRight - monWidth / 2 : marginRight - value[0];
-        let marginLeft = monWidth - currentWidth - marginRight;
+        let marginLeft = monWidth - dropdownWidth - marginRight;
 
         const minimumMargin = 0;
 
         if (marginRight < minimumMargin) {
             marginRight = minimumMargin;
-            marginLeft = monWidth - currentWidth - minimumMargin;
+            marginLeft = monWidth - dropdownWidth - minimumMargin;
         }
 
         if (marginLeft < minimumMargin) {
             marginLeft = minimumMargin;
-            marginRight = monWidth - currentWidth - minimumMargin;
+            marginRight = monWidth - dropdownWidth - minimumMargin;
         }
 
         const marginTop = 45;

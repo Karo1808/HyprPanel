@@ -22,6 +22,7 @@ const Controls = () => {
         },
         on_primary_click: () => network.toggleWifi(),
         child: Widget.Label({
+          class_name: "txt-icon",
           setup: (self) => {
             self.hook(network, () => {
               return (self.label = network.wifi.enabled ? "󰤨" : "󰤭");
@@ -39,6 +40,7 @@ const Controls = () => {
           ),
         on_primary_click: () => bluetooth.toggle(),
         child: Widget.Label({
+          class_name: "txt-icon",
           label: bluetooth.bind("enabled").as((btOn) => (btOn ? "󰂯" : "󰂲")),
         }),
       }),
@@ -52,6 +54,7 @@ const Controls = () => {
           ),
         on_primary_click: () => (notifications.dnd = !notifications.dnd),
         child: Widget.Label({
+          class_name: "txt-icon",
           label: notifications.bind("dnd").as((dnd) => (dnd ? "󰂛" : "󰂚")),
         }),
       }),
@@ -68,6 +71,7 @@ const Controls = () => {
           });
         },
         child: Widget.Label({
+          class_name: "txt-icon",
           setup: (self) => {
             self.hook(audio, () => {
               return (self.label = audio.speaker.is_muted ? "󰖁" : "󰕾");
@@ -88,6 +92,7 @@ const Controls = () => {
           });
         },
         child: Widget.Label({
+          class_name: "txt-icon",
           setup: (self) => {
             self.hook(audio, () => {
               return (self.label = audio.microphone.is_muted ? "󰍭" : "󰍬");

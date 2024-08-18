@@ -9,6 +9,7 @@
     $bar-menus-border-color,
     $bar-menus-menu-bluetooth-border-color
   );
+  opacity: $bar-menus-opacity/100;
 }
 
 .menu-items-container.bluetooth {

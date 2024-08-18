@@ -142,7 +142,7 @@ const renderWAPs = (
                         vpack: "start",
                         class_name: `network-icon wifi ${
                           ap.ssid === network.wifi.ssid ? "active" : ""
-                        }`,
+                        } txt-icon`,
                         label: getWifiIcon(`${ap["iconName"]}`),
                       }),
                       Widget.Box({
@@ -157,7 +157,6 @@ const renderWAPs = (
                             truncate: "end",
                             wrap: true,
                             label: ap.ssid,
-                            tooltip_text: `${ap.ssid}`,
                           }),
                           Widget.Revealer({
                             revealChild: ap.ssid === network.wifi.ssid,
@@ -213,6 +212,7 @@ const renderWAPs = (
                   });
                 },
                 child: Widget.Label({
+                  class_name: "txt-icon delete-network",
                   label: "󰚃",
                 }),
               }),

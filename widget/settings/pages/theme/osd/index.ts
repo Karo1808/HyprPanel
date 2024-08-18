@@ -14,6 +14,14 @@ export const OsdTheme = () => {
       children: [
         Header("On Screen Display Settings"),
         Option({
+          opt: options.theme.osd.opacity,
+          title: "OSD Opacity",
+          type: "number",
+          increment: 5,
+          min: 0,
+          max: 100,
+        }),
+        Option({
           opt: options.theme.osd.bar_color,
           title: "Bar",
           type: "color",

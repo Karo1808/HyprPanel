@@ -21,6 +21,11 @@ export type OSDAnchor =
   | "bottom"
   | "bottom left"
   | "left";
+
+export type ThemeExportData = {
+  filePath: string;
+  themeOnly: boolean;
+};
 export type RowProps<T> = {
   opt: Opt<T>;
   title: string;
@@ -35,11 +40,15 @@ export type RowProps<T> = {
     | "boolean"
     | "img"
     | "wallpaper"
+    | "export"
+    | "import"
+    | "config_import"
     | "font";
   enums?: string[];
   max?: number;
   min?: number;
   disabledBinding?: Variable<boolean>;
+  exportData?: ThemeExportData;
   subtitle?: string | VarType<any> | Opt;
   dependencies?: string[];
   increment?: number;

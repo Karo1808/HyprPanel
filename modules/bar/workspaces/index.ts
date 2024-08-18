@@ -2,14 +2,21 @@ const hyprland = await Service.import("hyprland");
 import { WorkspaceRule, WorkspaceMap } from "lib/types/workspace";
 import options from "options";
 
-const { workspaces, monitorSpecific, reverse_scroll, scroll_speed, spacing } = options.bar.workspaces;
+const {
+    workspaces,
+    monitorSpecific,
+    workspaceMask,
+    reverse_scroll,
+    scroll_speed,
+    spacing
+} = options.bar.workspaces;
 
 function range(length: number, start = 1) {
     return Array.from({ length }, (_, i) => i + start);
 }
 
 const Workspaces = (monitor = -1, ws = 8) => {
-    const getWorkspacesForMonitor = (curWs: number, wsRules: WorkspaceMap) => {
+    const getWorkspacesForMonitor = (curWs: number, wsRules: WorkspaceMap): boolean => {
         if (!wsRules || !Object.keys(wsRules).length) {
             return true;
         }
@@ -18,7 +25,12 @@ const Workspaces = (monitor = -1, ws = 8) => {
         hyprland.monitors.forEach((m) => (monitorMap[m.id] = m.name));
 
         const currentMonitorName = monitorMap[monitor];
-        return wsRules[currentMonitorName].includes(curWs);
+        const monitorWSRules = wsRules[currentMonitorName];
+
+        if (monitorWSRules === undefined) {
+            return true;
+        }
+        return monitorWSRules.includes(curWs);
     };
 
     const getWorkspaceRules = (): WorkspaceMap => {
@@ -42,7 +54,7 @@ const Workspaces = (monitor = -1, ws = 8) => {
         }
     };
 
-    const getCurrentMonitorWorkspaces = () => {
+    const getCurrentMonitorWorkspaces = (): number[] => {
         if (hyprland.monitors.length === 1) {
             return Array.from({ length: workspaces.value }, (_, i) => i + 1);
         }
@@ -61,26 +73,44 @@ const Workspaces = (monitor = -1, ws = 8) => {
         currentMonitorWorkspaces.value = getCurrentMonitorWorkspaces()
     })
 
-    const goToNextWS = () => {
-        const curWorkspace = hyprland.active.workspace.id;
-        const indexOfWs = currentMonitorWorkspaces.value.indexOf(curWorkspace);
-        let nextIndex = indexOfWs + 1;
-        if (nextIndex >= currentMonitorWorkspaces.value.length) {
-            nextIndex = 0;
-        }
+    const goToNextWS = (): void => {
+        if (currentMonitorWorkspaces.value === undefined) {
+            let nextIndex = hyprland.active.workspace.id + 1;
+            if (nextIndex > workspaces.value) {
+                nextIndex = 0;
+            }
+            hyprland.messageAsync(`dispatch workspace ${nextIndex}`)
 
-        hyprland.messageAsync(`dispatch workspace ${currentMonitorWorkspaces.value[nextIndex]}`)
+        } else {
+            const curWorkspace = hyprland.active.workspace.id;
+            const indexOfWs = currentMonitorWorkspaces.value.indexOf(curWorkspace);
+            let nextIndex = indexOfWs + 1;
+            if (nextIndex >= currentMonitorWorkspaces.value.length) {
+                nextIndex = 0;
+            }
+
+            hyprland.messageAsync(`dispatch workspace ${currentMonitorWorkspaces.value[nextIndex]}`)
+        }
     }
 
-    const goToPrevWS = () => {
-        const curWorkspace = hyprland.active.workspace.id;
-        const indexOfWs = currentMonitorWorkspaces.value.indexOf(curWorkspace);
-        let prevIndex = indexOfWs - 1;
-        if (prevIndex < 0) {
-            prevIndex = currentMonitorWorkspaces.value.length - 1;
-        }
+    const goToPrevWS = (): void => {
+        if (currentMonitorWorkspaces.value === undefined) {
+            let prevIndex = hyprland.active.workspace.id - 1;
 
-        hyprland.messageAsync(`dispatch workspace ${currentMonitorWorkspaces.value[prevIndex]}`)
+            if (prevIndex <= 0) {
+                prevIndex = workspaces.value;
+            }
+            hyprland.messageAsync(`dispatch workspace ${prevIndex}`)
+        } else {
+            const curWorkspace = hyprland.active.workspace.id;
+            const indexOfWs = currentMonitorWorkspaces.value.indexOf(curWorkspace);
+            let prevIndex = indexOfWs - 1;
+            if (prevIndex < 0) {
+                prevIndex = currentMonitorWorkspaces.value.length - 1;
+            }
+
+            hyprland.messageAsync(`dispatch workspace ${currentMonitorWorkspaces.value[prevIndex]}`)
+        }
     }
 
     function throttle<T extends (...args: any[]) => void>(func: T, limit: number): T {
@@ -96,7 +126,12 @@ const Workspaces = (monitor = -1, ws = 8) => {
         } as T;
     }
 
-    const createThrottledScrollHandlers = (scrollSpeed: number) => {
+    type ThrottledScrollHandlers = {
+        throttledScrollUp: () => void;
+        throttledScrollDown: () => void;
+    };
+
+    const createThrottledScrollHandlers = (scrollSpeed: number): ThrottledScrollHandlers => {
         const throttledScrollUp = throttle(() => {
             if (reverse_scroll.value === true) {
                 goToPrevWS();
@@ -130,7 +165,7 @@ const Workspaces = (monitor = -1, ws = 8) => {
                             const workspaceRules = getWorkspaceRules();
                             return getWorkspacesForMonitor(i, workspaceRules);
                         })
-                        .map((i) => {
+                        .map((i, index) => {
                             return Widget.Button({
                                 class_name: "workspace-button",
                                 on_primary_click: () => {
@@ -153,7 +188,7 @@ const Workspaces = (monitor = -1, ws = 8) => {
                                         ],
                                         (show_icons, show_numbered, numbered_active_indicator) => {
                                             if (show_icons) {
-                                                return `workspace-icon`;
+                                                return `workspace-icon txt-icon bar`;
                                             }
                                             if (show_numbered) {
                                                 const numActiveInd = hyprland.active.workspace.id === i
@@ -171,9 +206,10 @@ const Workspaces = (monitor = -1, ws = 8) => {
                                             options.bar.workspaces.icons.available.bind("value"),
                                             options.bar.workspaces.icons.active.bind("value"),
                                             options.bar.workspaces.icons.occupied.bind("value"),
+                                            workspaceMask.bind("value"),
                                             hyprland.active.workspace.bind("id")
                                         ],
-                                        (showIcons, available, active, occupied, _) => {
+                                        (showIcons, available, active, occupied, workspaceMask, _) => {
                                             if (showIcons) {
                                                 if (hyprland.active.workspace.id === i) {
                                                     return active;
@@ -187,7 +223,9 @@ const Workspaces = (monitor = -1, ws = 8) => {
                                                     return available;
                                                 }
                                             }
-                                            return `${i}`;
+                                            return workspaceMask
+                                                ? `${index + 1}`
+                                                : `${i}`;
                                         },
                                     ),
                                     setup: (self) => {
