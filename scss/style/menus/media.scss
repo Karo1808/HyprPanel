@@ -10,11 +10,16 @@
     $bar-menus-menu-media-border-color
   );
   opacity: $bar-menus-opacity/100;
+
 }
 
 .menu-items-container.media {
-  min-width: 23em;
-  min-height: 10em;
+  * {
+    font-size: $font-size * $bar-menus-menu-media-scaling/100;
+  }
+
+  min-width: 23em * $bar-menus-menu-media-scaling/100;
+  min-height: 10em * $bar-menus-menu-media-scaling/100;
 
   .menu-section-container {
     margin: 1em 0em;
