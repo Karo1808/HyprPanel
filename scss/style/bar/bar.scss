@@ -126,6 +126,8 @@ $transparency-value-hover: 1 - $bar-button-background-hover-opacity-ratio;
       $bar-buttons-media-background
     );
 
+    background-color: transparent;
+
     &:hover {
       background: transparentize(
         if(
