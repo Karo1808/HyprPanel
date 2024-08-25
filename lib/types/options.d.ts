@@ -21,6 +21,7 @@ export type OSDAnchor =
   | "bottom"
   | "bottom left"
   | "left";
+export type BarButtonStyles = "default" | "split" | "wave" | "wave2";
 
 export type ThemeExportData = {
   filePath: string;

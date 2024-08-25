@@ -28,6 +28,7 @@ const filterTitle = (windowtitle: ActiveClient) => {
         ["waterfox", "󰖟", "Waterfox"],
         ["thorium", "󰖟", "Waterfox"],
         ["tor-browser", "", "Tor Browser"],
+        ["floorp", "󰈹", "Floorp"],
 
         // Terminals
         ["gnome-terminal", "", "GNOME Terminal"],
@@ -55,6 +56,7 @@ const filterTitle = (windowtitle: ActiveClient) => {
         ["docker", "", "Docker"],
         ["vim", "", "Vim"],
         ["neovim", "", "Neovim"],
+        ["neovide", "", "Neovide"],
         ["emacs", "", "Emacs"],
 
         // Communication Tools
@@ -98,6 +100,8 @@ const filterTitle = (windowtitle: ActiveClient) => {
 
         // Office and Productivity
         ["evernote", "", "Evernote"],
+        ["sioyek", "", "Sioyek"],
+
 
         // Cloud Services and Sync
         ["dropbox", "󰇣", "Dropbox"],
@@ -131,19 +135,29 @@ const filterTitle = (windowtitle: ActiveClient) => {
 const ClientTitle = () => {
     return {
         component: Widget.Box({
-            children: [
-                Widget.Label({
+            className: Utils.merge([options.theme.bar.buttons.style.bind("value"), options.bar.windowtitle.label.bind("value")], (style, showLabel) => {
+                const styleMap = {
+                    default: "style1",
+                    split: "style2",
+                    wave: "style3",
+                };
+                return `windowtitle ${styleMap[style]} ${!showLabel ? "no-label" : ""}`;
+            }),
+            children: options.bar.windowtitle.label.bind("value").as((showLabel) => {
+                const titleIcon = Widget.Label({
                     class_name: "bar-button-icon windowtitle txt-icon bar",
                     label: hyprland.active.bind("client").as((v) => filterTitle(v).icon),
-                }),
-                Widget.Label({
+                });
+                const titleLabel = Widget.Label({
                     class_name: "bar-button-label windowtitle",
                     label: hyprland.active.bind("client").as((v) => filterTitle(v).label),
-                })
-            ]
+                });
+                return showLabel ? [titleIcon, titleLabel] : [titleIcon];
+            }),
         }),
         isVisible: true,
         boxClass: "windowtitle",
+        props: {}
     };
 };
 

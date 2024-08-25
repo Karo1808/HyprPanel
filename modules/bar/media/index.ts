@@ -17,12 +17,12 @@ const Media = () => {
 
   const getIconForPlayer = (playerName: string): string => {
     const windowTitleMap = [
-      ["Firefox", "󰈹 "],
-      ["Microsoft Edge", "󰇩 "],
-      ["Discord", " "],
-      ["Plex", "󰚺 "],
-      ["Spotify", "󰓇 "],
-      ["(.*)", "󰝚 "],
+      ["Firefox", "󰈹"],
+      ["Microsoft Edge", "󰇩"],
+      ["Discord", ""],
+      ["Plex", "󰚺"],
+      ["Spotify", "󰓇"],
+      ["(.*)", "󰝚"],
     ];
 
     const foundMatch = windowTitleMap.find((wt) =>
@@ -64,7 +64,20 @@ const Media = () => {
     component: Widget.Box({
       visible: false,
       child: Widget.Box({
-        class_name: "media",
+        className: Utils.merge(
+          [
+            options.theme.bar.buttons.style.bind("value"),
+            show_label.bind("value"),
+          ],
+          (style, showLabel) => {
+            const styleMap = {
+              default: "style1",
+              split: "style2",
+              wave: "style3",
+            };
+            return `media ${styleMap[style]}`;
+          }
+        ),
         child: Widget.Box({
           children: [
             Widget.Label({
