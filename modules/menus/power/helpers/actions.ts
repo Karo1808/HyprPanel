@@ -36,25 +36,19 @@ class PowerMenu extends Service {
     App.openWindow("verification");
   }
 
-<<<<<<< HEAD
+  customAction(action: Action, cmnd: string) {
+    [this.#cmd, this.#title] = [cmnd, action];
+
+    this.notify("cmd");
+    this.notify("title");
+    this.emit("changed");
+    App.closeWindow("powermenu");
+    App.openWindow("verification");
+  }
+
   shutdown = () => {
     this.action("shutdown");
   };
-=======
-    customAction(action: Action, cmnd: string) {
-        [this.#cmd, this.#title] = [cmnd, action];
-
-        this.notify("cmd");
-        this.notify("title");
-        this.emit("changed");
-        App.closeWindow("powermenu");
-        App.openWindow("verification");
-    }
-
-    shutdown = () => {
-        this.action("shutdown");
-    };
->>>>>>> upstream/master
 
   exec = () => {
     App.closeWindow("verification");

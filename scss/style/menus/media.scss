@@ -1,5 +1,4 @@
 .menu-items.media {
-<<<<<<< HEAD
   background: if(
     $bar-menus-monochrome,
     $bar-menus-background,
@@ -10,13 +9,7 @@
     $bar-menus-border-color,
     $bar-menus-menu-media-border-color
   );
-  opacity: $bar-menus-opacity/100;
-=======
-  background: if($bar-menus-monochrome, $bar-menus-background, $bar-menus-menu-media-background-color);
-  border-color: if($bar-menus-monochrome, $bar-menus-border-color, $bar-menus-menu-media-border-color);
   opacity: $bar-menus-opacity * 0.01;
->>>>>>> upstream/master
-
 }
 
 .menu-items-container.media {
