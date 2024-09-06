@@ -9,8 +9,14 @@ import { CloseButton } from "./close/index.js";
 import { getPosition } from "lib/utils.js";
 const hyprland = await Service.import("hyprland");
 
-const { position, timeout, cache_actions, monitor, active_monitor } =
-  options.notifications;
+const {
+  position,
+  timeout,
+  cache_actions,
+  monitor,
+  active_monitor,
+  displayedTotal,
+} = options.notifications;
 
 const curMonitor = Variable(monitor.value);
 
@@ -53,26 +59,32 @@ export default () => {
       hexpand: true,
       setup: (self) => {
         self.hook(notifs, () => {
-          return (self.children = notifs.popups.map((notif) => {
-            return Widget.Box({
-              class_name: "notification-card",
-              vpack: "start",
-              hexpand: true,
-              children: [
-                Image(notif),
-                Widget.Box({
-                  vpack: "start",
-                  vertical: true,
-                  hexpand: true,
-                  class_name: `notification-card-content ${
-                    !notifHasImg(notif) ? "noimg" : ""
-                  }`,
-                  children: [Header(notif), Body(notif), Action(notif, notifs)],
-                }),
-                CloseButton(notif, notifs),
-              ],
-            });
-          }));
+          return (self.children = notifs.popups
+            .slice(0, displayedTotal.value)
+            .map((notif) => {
+              return Widget.Box({
+                class_name: "notification-card",
+                vpack: "start",
+                hexpand: true,
+                children: [
+                  Image(notif),
+                  Widget.Box({
+                    vpack: "start",
+                    vertical: true,
+                    hexpand: true,
+                    class_name: `notification-card-content ${
+                      !notifHasImg(notif) ? "noimg" : ""
+                    }`,
+                    children: [
+                      Header(notif),
+                      Body(notif),
+                      Action(notif, notifs),
+                    ],
+                  }),
+                  CloseButton(notif, notifs),
+                ],
+              });
+            }));
         });
       },
     }),

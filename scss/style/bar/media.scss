@@ -26,7 +26,7 @@
     border-bottom-left-radius: $bar-buttons-radius;
     background: if(
       $bar-buttons-monochrome,
-      $bar-buttons-icon_background,
+      $bar-buttons-icon,
       $bar-buttons-media-icon_background
     );
     padding: $bar-buttons-padding_y 0em;

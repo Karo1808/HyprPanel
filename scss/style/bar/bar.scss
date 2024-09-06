@@ -1,6 +1,6 @@
 .bar {
   * {
-    font-size: $font-size * $bar-scaling/100;
+    font-size: $font-size * $bar-scaling * 0.01;
   }
 
   .bar-panel-container {
@@ -11,7 +11,7 @@
   }
 
   .bar-panel {
-    $bar-opacity-ratio: $bar-opacity / 100;
+    $bar-opacity-ratio: $bar-opacity * 0.01;
     $transparency-value: 1 - $bar-opacity-ratio;
     background: if(
       $bar-transparent,
@@ -22,11 +22,11 @@
   }
 }
 
-$bar-button-background-opacity-ratio: $bar-buttons-background_opacity / 100;
+$bar-button-background-opacity-ratio: $bar-buttons-background_opacity * 0.01;
 $transparency-value: 1 - $bar-button-background-opacity-ratio;
 
-$bar-button-background-hover-opacity-ratio: $bar-buttons-background_hover_opacity /
-  100;
+$bar-button-background-hover-opacity-ratio: $bar-buttons-background_hover_opacity *
+  0.01;
 $transparency-value-hover: 1 - $bar-button-background-hover-opacity-ratio;
 
 .bar_item_box_visible {
@@ -36,7 +36,7 @@ $transparency-value-hover: 1 - $bar-button-background-hover-opacity-ratio;
   );
   border-radius: $bar-buttons-radius;
   margin: $bar-buttons-y_margins $bar-buttons-spacing;
-  opacity: $bar-buttons-opacity/100;
+  opacity: $bar-buttons-opacity * 0.01;
   padding: $bar-buttons-padding_y $bar-buttons-padding_x;
 
   &.style3 {
@@ -130,11 +130,7 @@ $transparency-value-hover: 1 - $bar-button-background-hover-opacity-ratio;
 
     &:hover {
       background: transparentize(
-        if(
-          $bar-buttons-monochrome,
-          $bar-buttons-hover,
-          $bar-buttons-media-hover
-        ),
+        if($bar-buttons-media-hover),
         $transparency-value-hover
       );
     }
@@ -392,6 +388,10 @@ $transparency-value-hover: 1 - $bar-button-background-hover-opacity-ratio;
           $transparency-value
         );
         color: $bar-buttons-clock-icon_background;
+      }
+
+      .bar-button-icon {
+        opacity: 0.5;
       }
     }
   }
