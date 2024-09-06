@@ -120,17 +120,22 @@ $transparency-value-hover: 1 - $bar-button-background-hover-opacity-ratio;
   }
 
   &.media {
-    background-color: if(
-      $bar-buttons-monochrome,
-      $bar-buttons-background,
-      $bar-buttons-media-background
+    background-color: transparentize(
+      if(
+        $bar-buttons-monochrome,
+        $bar-buttons-background,
+        $bar-buttons-media-background
+      ),
+      $transparency-value
     );
-
-    background-color: transparent;
 
     &:hover {
       background: transparentize(
-        if($bar-buttons-media-hover),
+        if(
+          $bar-buttons-monochrome,
+          $bar-buttons-hover,
+          $bar-buttons-media-hover
+        ),
         $transparency-value-hover
       );
     }
@@ -247,11 +252,6 @@ $transparency-value-hover: 1 - $bar-button-background-hover-opacity-ratio;
   }
 
   &.windowtitle {
-    background-color: if(
-      $bar-buttons-monochrome,
-      $bar-buttons-background,
-      $bar-buttons-windowtitle-background
-    );
     background-color: transparentize(
       if(
         $bar-buttons-monochrome,
