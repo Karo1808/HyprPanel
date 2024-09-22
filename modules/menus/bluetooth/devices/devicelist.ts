@@ -85,6 +85,7 @@ const devices = (bluetooth: Bluetooth, self: Box<Gtk.Widget, unknown>): Box<Chil
                                                 vpack: 'start',
                                                 class_name: `menu-button-icon bluetooth ${conDevNames.includes(device.address) ? 'active' : ''} txt-icon`,
                                                 label: getBluetoothIcon(`${device['icon_name']}-symbolic`),
+                                                tooltipText: `${device.battery_percentage}%`,
                                             }),
                                             Widget.Box({
                                                 vertical: true,
