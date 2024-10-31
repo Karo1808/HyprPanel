@@ -191,6 +191,12 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                     type: 'boolean',
                 }),
                 Option({
+                    opt: options.bar.workspaces.showAllActive,
+                    title: 'Mark Active Workspace On All Monitors',
+                    subtitle: 'Marks the currently active workspace on each monitor.',
+                    type: 'boolean',
+                }),
+                Option({
                     opt: options.theme.bar.buttons.workspaces.fontSize,
                     title: 'Indicator Size',
                     subtitle:
@@ -231,6 +237,14 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                     enums: ['underline', 'highlight', 'color'],
                 }),
                 Option({
+                    opt: options.theme.bar.buttons.workspaces.smartHighlight,
+                    title: 'Smart Highlight',
+                    subtitle:
+                        'Automatically determines the highlight color of the workspace icon.\n' +
+                        'Only compatible with mapped icons.',
+                    type: 'boolean',
+                }),
+                Option({
                     opt: options.theme.bar.buttons.workspaces.numbered_active_highlight_border,
                     title: 'Highlight Radius',
                     subtitle: 'Only applicable if Workspace Numbers are enabled',
@@ -245,11 +259,46 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                 Option({
                     opt: options.bar.workspaces.showWsIcons,
                     title: 'Map Workspaces to Icons',
+                    subtitle: 'https://hyprpanel.com/configuration/panel.html#show-workspace-icons',
+                    subtitleLink: 'https://hyprpanel.com/configuration/panel.html#show-workspace-icons',
                     type: 'boolean',
                 }),
                 Option({
+                    opt: options.bar.workspaces.showApplicationIcons,
+                    title: 'Map Workspaces to Application Icons',
+                    subtitle:
+                        "Requires 'Map Workspace to Icons' to be enabled\n" +
+                        'https://hyprpanel.com/configuration/panel.html#map-workspaces-to-application-icons',
+                    subtitleLink: 'https://hyprpanel.com/configuration/panel.html#map-workspaces-to-application-icons',
+                    type: 'boolean',
+                }),
+                Option({
+                    opt: options.bar.workspaces.applicationIconOncePerWorkspace,
+                    title: 'Hide Duplicate App Icons',
+                    type: 'boolean',
+                }),
+                Option({
+                    opt: options.bar.workspaces.applicationIconMap,
+                    title: 'App Icon Mappings',
+                    subtitle: "Use the class/title output of 'hyprctl clients' to match against",
+                    type: 'object',
+                }),
+                Option({
+                    opt: options.bar.workspaces.applicationIconFallback,
+                    title: 'Fallback App Icon',
+                    subtitle: 'Fallback icon to display if no specific icon is defined for the application',
+                    type: 'string',
+                }),
+                Option({
+                    opt: options.bar.workspaces.applicationIconEmptyWorkspace,
+                    title: 'App Icon for empty workspace',
+                    type: 'string',
+                }),
+                Option({
                     opt: options.bar.workspaces.workspaceIconMap,
-                    title: 'Workspace Icon Mappings',
+                    title: 'Workspace Icon & Color Mappings',
+                    subtitle: 'https://hyprpanel.com/configuration/panel.html#show-workspace-icons',
+                    subtitleLink: 'https://hyprpanel.com/configuration/panel.html#show-workspace-icons',
                     type: 'object',
                 }),
                 Option({
@@ -269,7 +318,7 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                     title: 'Monitor Specific',
                     subtitle:
                         'Only workspaces applicable to the monitor will be displayed.\n' +
-                        "Works in conjuction with 'Total Workspaces'.",
+                        "Works in conjunction with 'Total Workspaces'.",
                     type: 'boolean',
                 }),
                 Option({
@@ -449,6 +498,11 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                     type: 'boolean',
                 }),
                 Option({
+                    opt: options.bar.network.showWifiInfo,
+                    title: 'Show Wifi Info On Hover',
+                    type: 'boolean',
+                }),
+                Option({
                     opt: options.bar.network.truncation,
                     title: 'Truncate Network Name',
                     subtitle: 'Will truncate the network name to the specified size below.',
@@ -546,6 +600,11 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                     type: 'boolean',
                 }),
                 Option({
+                    opt: options.bar.battery.hideLabelWhenFull,
+                    title: 'Hide Battery Percentage When Full',
+                    type: 'boolean',
+                }),
+                Option({
                     opt: options.theme.bar.buttons.battery.spacing,
                     title: 'Inner Spacing',
                     subtitle: 'Spacing between the icon and the label inside the buttons.',
@@ -590,6 +649,15 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                         'An array of applications to prevent from showing in the system tray.\n' +
                         'Wiki: https://hyprpanel.com/configuration/panel.html#system-tray',
                     subtitleLink: 'https://hyprpanel.com/configuration/panel.html#system-tray',
+                    type: 'object',
+                }),
+                Option({
+                    opt: options.bar.systray.customIcons,
+                    title: 'Custom Systray Icons',
+                    subtitle:
+                        'An object defining custom icons for the system tray.\n' +
+                        'Wiki: https://hyprpanel.com/configuration/panel.html#custom-systray-icons',
+                    subtitleLink: 'https://hyprpanel.com/configuration/panel.html#custom-systray-icons',
                     type: 'object',
                 }),
 
@@ -669,9 +737,10 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                     type: 'string',
                 }),
                 Option({
-                    opt: options.bar.media.show_artist,
-                    title: 'Show Track Artist',
-                    type: 'boolean',
+                    opt: options.bar.media.format,
+                    title: 'Label Format',
+                    subtitle: 'Available placeholders: {title}, {artists}, {artist}, {album}, {name}, {identity}',
+                    type: 'string',
                 }),
                 Option({
                     opt: options.bar.media.show_label,
@@ -722,6 +791,12 @@ export const BarSettings = (): Scrollable<Gtk.Widget, Gtk.Widget> => {
                 Option({
                     opt: options.bar.notifications.show_total,
                     title: 'Show Total # of notifications',
+                    type: 'boolean',
+                }),
+                Option({
+                    opt: options.bar.notifications.hideCountWhenZero,
+                    title: 'Auto Hide Label',
+                    subtitle: 'Hide Total # of notifications when zero',
                     type: 'boolean',
                 }),
                 Option({
