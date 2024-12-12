@@ -15,6 +15,39 @@ export type RecursiveOptionsObject = {
 };
 
 export type BarLocation = 'top' | 'bottom';
+export type BarModule =
+    | 'battery'
+    | 'dashboard'
+    | 'workspaces'
+    | 'windowtitle'
+    | 'media'
+    | 'notifications'
+    | 'volume'
+    | 'network'
+    | 'bluetooth'
+    | 'clock'
+    | 'ram'
+    | 'cpu'
+    | 'cputemp'
+    | 'storage'
+    | 'netstat'
+    | 'kbinput'
+    | 'updates'
+    | 'submap'
+    | 'weather'
+    | 'power'
+    | 'systray'
+    | 'hypridle'
+    | 'hyprsunset';
+
+export type BarLayout = {
+    left: BarModule[];
+    middle: BarModule[];
+    right: BarModule[];
+};
+export type BarLayouts = {
+    [key: string]: BarLayout;
+};
 
 export type Unit = 'imperial' | 'metric';
 export type PowerOptions = 'sleep' | 'reboot' | 'logout' | 'shutdown';
@@ -217,3 +250,5 @@ export type ColorMapValue = (typeof defaultColorMap)[ColorMapKey];
 export type ScalingPriority = 'gdk' | 'hyprland' | 'both';
 
 export type BluetoothBatteryState = 'paired' | 'connected' | 'always';
+
+export type BorderLocation = 'none' | 'top' | 'right' | 'bottom' | 'left' | 'horizontal' | 'vertical' | 'full';
